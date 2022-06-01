@@ -1,5 +1,5 @@
 import SqlStatements from "../config/statements.js"
-import wrapStringAroundSingleQuotes from "../helpers/strings.js"
+import {wrapStringAroundDoubleQuotes} from "../helpers/strings.js"
 class Query extends SqlStatements {
   constructor(options) {
     super()
