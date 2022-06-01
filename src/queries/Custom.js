@@ -5,7 +5,7 @@ class Query extends SqlStatements {
     super()
     this.columns = options.columns
     this.values = options.values
-    this.table = options.table
+    this.tableName = options.tableName
   }
 
   customInsertQuery() {
