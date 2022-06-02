@@ -9,9 +9,6 @@
   },
   "author": "Eduardo Oliveira",
   "license": "MIT",
-  "devDependencies": {
-    "jest": "^28.1.0"
-  },
   "dependencies": {
     "@faker-js/faker": "^7.1.0"
   }
