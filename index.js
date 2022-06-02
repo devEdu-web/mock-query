@@ -1,9 +1,7 @@
-import MockQuery from './src/queries/Mock.js'
+import Query from "./src/queries/Custom.js";
+import MockQuery from "./src/queries/Mock.js";
 
-const mock = new MockQuery({
-  tableName: 'users',
-  columns: ['first_name', 'last_name', 'age'],
-  mocks: ['firstName', 'lastName', 'age'],
-  amount: 1000,
-})
-
+export {
+  Query,
+  MockQuery
+}
