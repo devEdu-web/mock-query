@@ -1,6 +1,6 @@
 # GenQuery
 
-This tool was built to help with one problem: add hundreds or thousands of data into a database. Before this situation you may be prone to write a script with a loop constantly sending thousands of queries to the database, but it's easier and faster to send this amount of data with a single query, with all the values you need. This tool provides you this query.
+This tool was built to help with one problem: add hundreds or thousands of data into a database. Before this situation you may be prone to write a script with a loop constantly sending thousands of queries to the database, but it's easier and faster to send this amount of data with a single query, with all the values you need. This tool provides you this query. 
 
 ## Custom Queries
 
@@ -18,7 +18,7 @@ const newQuery({
 
 // Note: The values order must match the columns order.
 
-console.log(newQuery.customInsertQuery())
+newQuery.customInsertQuery()
 
 ```
 
@@ -36,8 +36,12 @@ const mock = new MockQuery({
   amount: 20 // Defines how many values generate
 })
 
-console.log(mock.mockInsert())
+mock.mockInsert()
 
 // Note: the mocks property have fixed values, you can see all them in the docs.
 
 ```
+
+***
+
+Note: At the moment this tool can only generate large queries mocking values. You want to create a large query with specific values, this tool won't meet this need.
