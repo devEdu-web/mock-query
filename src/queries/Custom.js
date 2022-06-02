@@ -1,5 +1,6 @@
 import SqlStatements from "../config/statements.js"
 import {wrapStringAroundDoubleQuotes} from "../helpers/strings.js"
+import createOutputFile from "../helpers/files.js"
 class Query extends SqlStatements {
   constructor(options) {
     super()
@@ -9,12 +10,12 @@ class Query extends SqlStatements {
   }
 
   customInsertQuery() {
-    const stringsWithQuotes = wrapStringAroundSingleQuotes(this.values)
+    const stringsWithQuotes = wrapStringAroundDoubleQuotes(this.values)
     let query = this.insert
       .replace('?', this.table)
       .replace('?', this.columns.join())
       .replace('?', stringsWithQuotes.join())
-   return query
+   createOutputFile(query)
   }
 
 }

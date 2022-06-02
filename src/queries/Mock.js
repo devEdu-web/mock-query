@@ -1,6 +1,7 @@
 import SqlStatements from '../config/statements.js';
 import {wrapStringAroundDoubleQuotes, removeLastCommaAndAddSemiColon} from '../helpers/strings.js';
 import mockSettings from '../config/mocks.js'
+import createOutputFile from '../helpers/files.js';
 
 class MockQuery extends SqlStatements {
   constructor(options) {
@@ -33,7 +34,8 @@ class MockQuery extends SqlStatements {
     })
 
     let query = statement.replace('table', this.tableName).replace('columns', this.columns.join())
-    return removeLastCommaAndAddSemiColon(query)
+    let queryWithSemiColon =  removeLastCommaAndAddSemiColon(query)
+    createOutputFile(queryWithSemiColon)
   }
 }
 
