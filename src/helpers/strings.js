@@ -28,7 +28,7 @@ function removeLastCommaAndAddSemiColon(string) {
   return string.substring(0, lastCommaIndex) + ';' + string.substring(lastCommaIndex + 1);
 }
 
-function removeSpaceFromColumnsArray(columns) {
+function removeSpacesFromColumn(columns) {
   const newArray = []
   columns.forEach(column => {
     const updatedColumn = column.replace(' ', '_')
@@ -37,11 +37,9 @@ function removeSpaceFromColumnsArray(columns) {
   return newArray
 }
 
-// replaceDoubleQuotesToSingle(["Eduardo, \"the phantom\""])
-
 export {
   wrapStringAroundDoubleQuotes,
   removeLastCommaAndAddSemiColon,
-  removeSpaceFromColumnsArray,
+  removeSpacesFromColumn,
   replaceDoubleQuotesToSingle
 }

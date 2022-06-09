@@ -1,8 +1,9 @@
 import SqlStatements from "../config/statements.js"
-import {wrapStringAroundDoubleQuotes, removeSpaceFromColumnsArray, replaceDoubleQuotesToSingle} from "../helpers/strings.js"
+import {wrapStringAroundDoubleQuotes, removeSpacesFromColumn, replaceDoubleQuotesToSingle} from "../helpers/strings.js"
 import {createOutputFile} from "../helpers/files.js"
 import { parse } from 'csv-parse'
 import { getColumnsFromCsv } from '../helpers/files.js'
+import { prepColumnsPartOfQuery } from '../helpers/query.js'
 import fs from 'fs'
 class Query extends SqlStatements {
   // constructor(options) {
@@ -23,10 +24,9 @@ class Query extends SqlStatements {
 
   async file(options = {}) {
     const query = (this.mockInsertStatement).replace('table', options.tableName)
-    const tableColumns = await getColumnsFromCsv(options.path)
-    const columnsArray = tableColumns.split(',')
-    const columnsWithNoSpaces = removeSpaceFromColumnsArray(columnsArray)
-    let queryWithColumns = query.replace('columns', columnsWithNoSpaces)
+    const columnsResult = await prepColumnsPartOfQuery(options.path)
+    let queryWithColumns = query.replace('columns', columnsResult.columnItemWithNoSpaces)
+
     const values = []
     fs.createReadStream(options.path)
     .pipe(parse({
@@ -37,7 +37,7 @@ class Query extends SqlStatements {
       let temporaryValues = []
       Object.keys(chunk).forEach(key => {
         const numberCheck = isNaN(chunk[key])
-        if(temporaryValues.length == columnsArray.length) {
+        if(temporaryValues.length == columnsResult.columnsArray.length) {
           temporaryValues = []
         } else {
           if(numberCheck) {
@@ -55,10 +55,8 @@ class Query extends SqlStatements {
       })
       .on('end', () => {
         values.forEach(group => {
-          // console.log(group)
           const valuesWithNoDoubleQuotes = replaceDoubleQuotesToSingle(group)
           const groupWithDoubleQuotes = wrapStringAroundDoubleQuotes(valuesWithNoDoubleQuotes)
-          // console.log(groupWithDoubleQuotes)
           queryWithColumns += `(${groupWithDoubleQuotes.join()}),`
         })
         createOutputFile(queryWithColumns)
