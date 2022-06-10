@@ -8,6 +8,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const folderPath = path.join(__dirname, '..', '..', 'outQuery')
 const filePath = path.join(__dirname, '..', '..', 'outQuery', 'query.txt')
 
+
+/**
+ * 
+ * @param {String} path 
+ * @returns Promise
+ */
 async function getColumnsFromCsv(path) {
   return new Promise((resolve, reject) => {
 
@@ -23,7 +29,10 @@ async function getColumnsFromCsv(path) {
     })
   })
 }
-
+/**
+ * 
+ * @param {String} query 
+ */
 function createOutputFile(query) {
   if(!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath)

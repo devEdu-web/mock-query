@@ -18,7 +18,7 @@ async function prepColumnsPartOfQuery(path) {
 }
 /**
  * 
- * @param {Array} values 
+ * @param {Array} values Array
  * @returns String
  */
 function prepValuesPartOfQuery(values) {

@@ -4,21 +4,23 @@ import mockSettings from '../config/mocks.js'
 import createOutputFile from '../helpers/files.js';
 
 class MockQuery extends SqlStatements {
-  constructor(options) {
-    super();
-    (this.columns = options.columns),
-      (this.tableName = options.tableName),
-      (this.amount = options.amount);
-      (this.mocks = options.mocks)
-  }
+  /**
+   * 
+   * @param {Object} options 
+   * {
+   *  columns: [],
+   *  tableName: String,
+   *  amount: Number,
+   *  mocks: []
+   * }
+   */
 
-  mockInsert() {
-    // "INSERT INTO table (columns) VALUES (values);"
+  mockInsert(options = {}) {
     let values = [];
-    for (let i = 0; i < this.amount; i++) {
+    for (let i = 0; i < options.amount; i++) {
       let temporaryValues = []
-      const amountOfValues = this.mocks.length
-      this.mocks.forEach(value => {
+      const amountOfValues = options.mocks.length
+      options.mocks.forEach(value => {
         if(temporaryValues.length == amountOfValues) {
           temporaryValues = []
         } else {
@@ -33,7 +35,7 @@ class MockQuery extends SqlStatements {
       statement += `(${groupWithDoubleQuotes.join()}), `
     })
 
-    let query = statement.replace('table', this.tableName).replace('columns', this.columns.join())
+    let query = statement.replace('table', options.tableName).replace('columns', options.columns.join())
     let queryWithSemiColon =  removeLastCommaAndAddSemiColon(query)
     createOutputFile(queryWithSemiColon)
   }

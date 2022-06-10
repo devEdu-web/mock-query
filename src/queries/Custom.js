@@ -13,12 +13,12 @@ class Query extends SqlStatements {
   //   this.tableName = options.tableName
   // }
 
-  customInsertQuery() {
-    const stringsWithQuotes = wrapStringAroundDoubleQuotes(this.values)
-    let query = this.insert
-      .replace('table', this.table)
-      .replace('columns', this.columns.join())
-      .replace('?', stringsWithQuotes.join())
+  customInsertQuery(options = {}) {
+    const stringsWithQuotes = wrapStringAroundDoubleQuotes(options.values)
+    let query = this.commonInsertStatement
+      .replace('table', options.table)
+      .replace('columns', options.columns.join())
+      .replace('values', stringsWithQuotes.join())
    createOutputFile(query)
   }
 
