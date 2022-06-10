@@ -6,24 +6,34 @@ import { getColumnsFromCsv } from '../helpers/files.js'
 import { prepColumnsPartOfQuery, prepValuesPartOfQuery } from '../helpers/query.js'
 import fs from 'fs'
 class Query extends SqlStatements {
-  // constructor(options) {
-  //   super()
-  //   this.columns = options.columns
-  //   this.values = options.values
-  //   this.tableName = options.tableName
-  // }
-
+  /**
+   * 
+   * @param {Object} options 
+   * {
+   *  columns: [],
+   *  values: [],
+   *  tableName: String
+   * }
+   */
   customInsertQuery(options = {}) {
     const stringsWithQuotes = wrapStringAroundDoubleQuotes(options.values)
-    let query = this.commonInsertStatement
-      .replace('table', options.table)
+    let query = this.getCommonInsertStatement()
+      .replace('table', options.tableName)
       .replace('columns', options.columns.join())
       .replace('values', stringsWithQuotes.join())
    createOutputFile(query)
   }
-
+  /**
+   * 
+   * @param {Object} options 
+   * {
+   *  tableName: String,
+   *  path: String
+   * }
+   */
   async file(options = {}) {
-    const query = (this.mockInsertStatement).replace('table', options.tableName)
+    const query = this.getMockInsertStatement().replace('table', options.tableName)
+    // const query = (this.mockInsertStatement).replace('table', options.tableName)
     const columnsResult = await prepColumnsPartOfQuery(options.path)
     let queryWithColumns = query.replace('columns', columnsResult.columnItemWithNoSpaces)
 

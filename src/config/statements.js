@@ -1,7 +1,12 @@
 class SqlStatements {
-  constructor() {
-    this.commonInsertStatement = "INSERT INTO table (columns) VALUES (values);"
-    this.mockInsertStatement = "INSERT INTO table (columns) VALUES "
+  #commonInsertStatement = "INSERT INTO table (columns) VALUES (values);"
+  #mockInsertStatement =  "INSERT INTO table (columns) VALUES "
+  
+  getCommonInsertStatement() {
+    return this.#commonInsertStatement
+  }
+  getMockInsertStatement() {
+    return this.#mockInsertStatement
   }
 }
 

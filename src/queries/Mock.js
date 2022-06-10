@@ -1,7 +1,7 @@
 import SqlStatements from '../config/statements.js';
 import {wrapStringAroundDoubleQuotes, removeLastCommaAndAddSemiColon} from '../helpers/strings.js';
 import mockSettings from '../config/mocks.js'
-import createOutputFile from '../helpers/files.js';
+import {createOutputFile} from '../helpers/files.js';
 
 class MockQuery extends SqlStatements {
   /**
@@ -29,7 +29,7 @@ class MockQuery extends SqlStatements {
       })
       values.push(temporaryValues)
     }
-    let statement = this.mockInsertStatement
+    let statement = this.getMockInsertStatement()
     values.forEach(valueGroup => {
       const groupWithDoubleQuotes = wrapStringAroundDoubleQuotes(valueGroup)
       statement += `(${groupWithDoubleQuotes.join()}), `
