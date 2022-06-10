@@ -1,6 +1,11 @@
 import { getColumnsFromCsv } from './files.js'
-import { removeSpacesFromColumn } from './strings.js'
+import { removeSpacesFromColumn, wrapStringAroundDoubleQuotes, replaceDoubleQuotesToSingle, removeLastCommaAndAddSemiColon } from './strings.js'
 
+/**
+ * 
+ * @param {String} path 
+ * @returns Object
+ */
 async function prepColumnsPartOfQuery(path) {
   const tableColumns = await getColumnsFromCsv(path)
   const columnsArray = tableColumns.split(',')
@@ -11,5 +16,15 @@ async function prepColumnsPartOfQuery(path) {
     columnItemWithNoSpaces
   }
 }
+/**
+ * 
+ * @param {Array} values 
+ * @returns String
+ */
+function prepValuesPartOfQuery(values) {
+  const valuesWithNoDoubleQuotes = replaceDoubleQuotesToSingle(values)
+  const stringValuesWithQuotes = wrapStringAroundDoubleQuotes(valuesWithNoDoubleQuotes)
+  return stringValuesWithQuotes.join()
+}
 
-export { prepColumnsPartOfQuery }
+export { prepColumnsPartOfQuery, prepValuesPartOfQuery }

@@ -1,9 +1,9 @@
 import SqlStatements from "../config/statements.js"
-import {wrapStringAroundDoubleQuotes, removeSpacesFromColumn, replaceDoubleQuotesToSingle} from "../helpers/strings.js"
+import {wrapStringAroundDoubleQuotes, removeLastCommaAndAddSemiColon } from "../helpers/strings.js"
 import {createOutputFile} from "../helpers/files.js"
 import { parse } from 'csv-parse'
 import { getColumnsFromCsv } from '../helpers/files.js'
-import { prepColumnsPartOfQuery } from '../helpers/query.js'
+import { prepColumnsPartOfQuery, prepValuesPartOfQuery } from '../helpers/query.js'
 import fs from 'fs'
 class Query extends SqlStatements {
   // constructor(options) {
@@ -55,11 +55,11 @@ class Query extends SqlStatements {
       })
       .on('end', () => {
         values.forEach(group => {
-          const valuesWithNoDoubleQuotes = replaceDoubleQuotesToSingle(group)
-          const groupWithDoubleQuotes = wrapStringAroundDoubleQuotes(valuesWithNoDoubleQuotes)
-          queryWithColumns += `(${groupWithDoubleQuotes.join()}),`
+          const readyValues = prepValuesPartOfQuery(group)
+          queryWithColumns += `(${readyValues}),`
         })
-        createOutputFile(queryWithColumns)
+        const queryWithSemiColon = removeLastCommaAndAddSemiColon(queryWithColumns)
+        createOutputFile(queryWithSemiColon)
       })
 
   }

@@ -12,5 +12,5 @@ const custom = new Query()
 
 custom.file({
   tableName: 'top_songs',
-  path: './file.csv'
+  path: './titles_amazon.csv'
 })
